@@ -10,3 +10,4 @@
 * Plugin arch to add support for additional providers (may be implicitly handled)
 * Release 0.2.0 to Rubygems
 * Leverage [doorkeeper](http://github.com/applicake/doorkeeper) for the oauth code (???)
+* Remove provider specific model code. Modules are better. (see plugin arch)
