@@ -1,5 +1,5 @@
 module Socialite
-  module ApiWrappers
+  module Api
     module Facebook
       extend ActiveSupport::Concern
 
@@ -13,8 +13,8 @@ module Socialite
           api_connection(options[:access_token]).get_object(unique_id)
         end
 
-        def api_connection(access_token=nil)
-          Koala::Facebook::API.new(access_token)
+        def api_connection(token=nil)
+          Koala::Facebook::API.new(token)
         end
       end
 
@@ -23,7 +23,7 @@ module Socialite
           "http://facebook.com/#{login}"
         end
 
-        def access_token
+        def token
           raise unless super
         end
 
@@ -55,23 +55,10 @@ module Socialite
           raise unless super
         end
 
-        def method_missing(meth, *args, &block)
-          if @target.respond_to?(meth)
-            self.class.class_eval <<-end_eval
-              def #{meth}(*args, &block)
-                @target.__send__(:#{meth}, *args, &block)
-              end
-            end_eval
-            __send__(meth, *args, &block)
-          else
-            super # NoMethodError
-          end
-        end
-
       protected
 
         def api_connection
-          @api_connection ||= self.class.api_connection(access_token)
+          @api_connection ||= self.class.api_connection(token)
         end
       end
     end

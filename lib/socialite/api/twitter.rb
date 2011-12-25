@@ -1,5 +1,5 @@
 module Socialite
-  module ApiWrappers
+  module Api
     module Twitter
       extend ActiveSupport::Concern
 

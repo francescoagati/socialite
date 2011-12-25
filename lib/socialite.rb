@@ -10,9 +10,9 @@ require 'socialite/identity'
 module Socialite
   autoload :ControllerSupport, 'socialite/controller_support'
 
-  module ApiWrappers
-    autoload :Facebook, 'socialite/api_wrappers/facebook'
-    autoload :Twitter, 'socialite/api_wrappers/twitter'
+  module Api
+    autoload :Facebook, 'socialite/api/facebook'
+    autoload :Twitter, 'socialite/api/twitter'
   end
 
   module Controllers
@@ -20,12 +20,11 @@ module Socialite
   end
 
   module Helpers
-    autoload :Authentication, 'socialite/helpers/authentication.rb'
+    autoload :Authentication, 'socialite/helpers/authentication'
   end
 
   module Models
     autoload :User, 'socialite/models/user'
-    autoload :FacebookIdentity, 'socialite/models/facebook_identity.rb'
   end
 
   def self.generate_token
