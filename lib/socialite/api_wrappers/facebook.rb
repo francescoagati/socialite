@@ -55,6 +55,19 @@ module Socialite
           raise unless super
         end
 
+        def method_missing(meth, *args, &block)
+          if @target.respond_to?(meth)
+            self.class.class_eval <<-end_eval
+              def #{meth}(*args, &block)
+                @target.__send__(:#{meth}, *args, &block)
+              end
+            end_eval
+            __send__(meth, *args, &block)
+          else
+            super # NoMethodError
+          end
+        end
+
       protected
 
         def api_connection

@@ -1,35 +1,31 @@
-require 'haml'
-require 'omniauth/core'
-require 'omniauth/oauth'
-
 module Socialite
   class Engine < Rails::Engine
     isolate_namespace Socialite
 
     initializer 'socialite.load_middleware', :after => :load_config_initializers do
-      if Socialite.service_configs[:twitter]
+      if Socialite.services[:twitter]
         if Socialite.mounted_engine?
           middleware.use OmniAuth::Strategies::Twitter,
-            Socialite.service_configs[:twitter].app_key,
-            Socialite.service_configs[:twitter].app_secret
+            Socialite.services[:twitter].key,
+            Socialite.services[:twitter].secret
         else
-          config.app_middleware.use OmniAuth::Strategies::Twitter,
-            Socialite.service_configs[:twitter].app_key,
-            Socialite.service_configs[:twitter].app_secret
+         config.app_middleware.use OmniAuth::Strategies::Twitter,
+            Socialite.services[:twitter].key,
+            Socialite.services[:twitter].secret
         end
       end
 
-      if Socialite.service_configs[:facebook]
+      if Socialite.services[:facebook]
         if Socialite.mounted_engine?
           middleware.use OmniAuth::Strategies::Facebook,
-            Socialite.service_configs[:facebook].app_key,
-            Socialite.service_configs[:facebook].app_secret,
-            Socialite.service_configs[:facebook].options
+            Socialite.services[:facebook].key,
+            Socialite.services[:facebook].secret,
+            Socialite.services[:facebook].options
         else
           config.app_middleware.use OmniAuth::Strategies::Facebook,
-            Socialite.service_configs[:facebook].app_key,
-            Socialite.service_configs[:facebook].app_secret,
-            Socialite.service_configs[:facebook].options
+            Socialite.services[:facebook].app_key,
+            Socialite.services[:facebook].app_secret,
+            Socialite.services[:facebook].options
         end
       end
     end

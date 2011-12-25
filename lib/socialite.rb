@@ -1,10 +1,14 @@
 require 'haml'
-require 'omniauth/core'
-require 'omniauth/oauth'
+require 'omniauth'
+require 'omniauth-facebook'
+require 'omniauth-twitter'
+
+require 'socialite/service'
+require 'socialite/engine'
+require 'socialite/identity'
 
 module Socialite
   autoload :ControllerSupport, 'socialite/controller_support'
-  autoload :ServiceConfig, 'socialite/service_config'
 
   module ApiWrappers
     autoload :Facebook, 'socialite/api_wrappers/facebook'
@@ -20,35 +24,39 @@ module Socialite
   end
 
   module Models
-    autoload :Identity, 'socialite/models/identity'
     autoload :User, 'socialite/models/user'
     autoload :FacebookIdentity, 'socialite/models/facebook_identity.rb'
   end
-
-  mattr_accessor :service_configs, :root_path, :mount_prefix, :mounted_engine
-  @@service_configs = {}
 
   def self.generate_token
     SecureRandom.base64(15).tr('+/=lIO0', 'pqrsxyz')
   end
 
-  def self.setup(entity = nil, &block)
-    block.call self if block_given?
+  def self.setup
+    yield self
   end
 
+  mattr_accessor :mount_prefix
+
+  mattr_accessor :mounted_engine
   def self.mounted_engine?
     !!mounted_engine
   end
 
-  # config.twitter APP_KEY, APP_SECRET, :scope => ['foo', 'bar']
-  def self.twitter(app_key, app_secret, options = {})
-    @@service_configs[:twitter] = ServiceConfig.new(app_key, app_secret, options)
+  # TODO build support for this out
+  # def self.authenticate_resource_owner(&block)
+  #   @@authenticate_resource_owner = block
+  # end
+
+  mattr_accessor :services
+  @@services = {}
+
+  def self.facebook(key, secret, options = {})
+    @@services[:facebook] = Service.new(key, secret, options)
   end
 
-  # config.facebook APP_KEY, APP_SECRET, :scope => ['foo', 'bar']
-  def self.facebook(app_key, app_secret, options = {})
-    @@service_configs[:facebook] = ServiceConfig.new(app_key, app_secret, options)
+  def self.twitter(key, secret, options = {})
+    @@services[:twitter] = Service.new(key, secret, options)
   end
 end
 
-require 'socialite/engine'

@@ -1,0 +1,14 @@
+===============================================================================
+
+There is a setup that you need to do before you can use socialite.
+
+Step 1.
+Go to config/initializers/socialite.rb and configure.
+
+Step 2.
+Migrate your database.
+
+Step 3.
+That's it, that's all. Enjoy!
+
+===============================================================================

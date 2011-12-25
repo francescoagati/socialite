@@ -5,25 +5,26 @@ require File.expand_path('../dummy/config/environment.rb',  __FILE__)
 require 'rails/test_help'
 require 'rspec/rails'
 
-# Should matchers
-require 'shoulda/matchers'
-
 Rails.backtrace_cleaner.remove_silencers!
-
-# Load support files
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
-
-# Load factories
-require 'factory_girl'
-Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].each { |f| require f }
 
 # Run any available migration
 ActiveRecord::Migrator.migrate File.expand_path('../dummy/db/migrate/', __FILE__)
 
+# Load factories
+require 'fabrication'
+
+Fabrication.configure do |config|
+  fabrication_dir = File.expand_path('../fabricators', __FILE__)
+  p fabrication_dir
+end
+Dir["#{File.dirname(__FILE__)}/fabricators/**/*.rb"].each { |f| require f }
+
+# Load support files
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+
 RSpec.configure do |config|
   require 'rspec/expectations'
   config.include RSpec::Matchers
-  # config.include Socialite::Identity
 
   config.use_transactional_fixtures = true
 end
