@@ -2,8 +2,10 @@ source 'http://rubygems.org'
 
 gemspec
 
-# jquery-rails is used by the dummy application
 gem 'jquery-rails'
+gem 'reusable'
+gem 'coderay', '~> 0.9.8'
+gem 'redcarpet', '2.0.0b5'
 
 group :development do
   gem 'thin'

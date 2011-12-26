@@ -1,0 +1,7 @@
+.row
+  - flash.each do |key, messages|
+    .span16
+      .alert-message{class: key.to_s}
+        %a.close{href: "#"}×
+        %p= messages.join('\n')
+

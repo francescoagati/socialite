@@ -1,11 +1,9 @@
-require 'socialite/engine'
-
 Dummy::Application.routes.draw do
   mount Socialite::Engine => '/socialite'
-  # resource :user, :module => 'socialite', :controller => 'user' do
-  #   resources :identities, :only => [:destroy]
-  # end
-  # resource :home
-  # match '/restricted' => 'home#show', :as => 'restricted'
-  # root :to => '/socialite'
+
+  get '/:page_name',
+    to: 'pages#show',
+    constraints: { page_name: /landing/i }
+
+  root to: 'pages#show', defaults: { page_name: 'landing' }
 end

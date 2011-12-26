@@ -1,11 +1,10 @@
-# Socialite
+# Authentication with Socialite
 
-A Rails 3.1 engine that provides a User model with support for linking
-multiple authorization accounts per user (linking). Current support for
-Twitter, Facebook, Github and LinkedIn.
-
-Additional authorizations can be added if they are supported by
-the [OmniAuth](http://github.com/intridea/omniauth) project.
+A [Rails 3.1](http://rubyonrails.org/) engine that provides support for linking
+multiple authorization accounts per resource (ex. linking social networks
+to a single user account). Currently it supports any authentication strategy
+that is available for the [OmniAuth](http://github.com/intridea/omniauth)
+project.
 
 ## Development
 
@@ -30,8 +29,6 @@ To use Socialite in a Rails 3.1 application:
 * Install it by running `bundle`.
 * Import migrations into the parent project with `rake
   socialite:install:migrations`
-* Use the provided CSS by adding `//= require socialite` from your
-  application's CSS manifest file
 
 ## History
 
@@ -45,19 +42,7 @@ proper Rails 3.1 Engine.
 * [Justin Smestad](http://github.com/jsmestad)
 * [Bobby Wilson](http://github.com/bobbyw)
 
-### Omnisocial Contributers
-
-* [Klaus Hartl](http://github.com/carhartl)
-* [Stephen Aument](http://github.com/stephenaument)
-* [Lucas Allan](http://github.com/lucasallan)
-* [James Dumay](http://github.com/i386)
-* [Pablo Dejuan](http://github.com/pdjota)
-* [Chris Oliver](http://github.com/excid3)
-
 ## Copyright & License
 
-Socialite is Copyright (c) 2011 Justin Smestad. All Rights are Reserved. Code is 
+Socialite is Copyright (c) 2011-2012 Justin Smestad. All Rights are Reserved. Code is
 distributed under the Apache 2.0 License. See LICENSE file for more information.
-
-The original OmniSocial code is Copyright (c) 2010-2011 [Tim Riley](http://openmonkey.com/)
-and [Icelab](http://icelab.com.au/), and is released under MIT License.
