@@ -42,9 +42,7 @@ module Socialite
     !!mounted_engine
   end
 
-  mattr_accessor :authenticate_resource_owner
-  mattr_accessor :resource_owner_authenticator
-  def self.resource_owner_authenticator(&block)
+  def self.authenticate_resource_owner(&block)
     @@authenticate_resource_owner = block
   end
 
