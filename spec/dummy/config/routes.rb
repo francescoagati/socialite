@@ -6,6 +6,6 @@ Dummy::Application.routes.draw do
   #   resources :identities, :only => [:destroy]
   # end
   # resource :home
-  match '/restricted' => 'home#show', :as => 'restricted'
-  root :to => 'home#index'
+  # match '/restricted' => 'home#show', :as => 'restricted'
+  # root :to => '/socialite'
 end

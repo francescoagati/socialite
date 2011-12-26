@@ -42,10 +42,11 @@ module Socialite
     !!mounted_engine
   end
 
-  # TODO build support for this out
-  # def self.authenticate_resource_owner(&block)
-  #   @@authenticate_resource_owner = block
-  # end
+  mattr_accessor :authenticate_resource_owner
+  mattr_accessor :resource_owner_authenticator
+  def self.resource_owner_authenticator(&block)
+    @@authenticate_resource_owner = block
+  end
 
   mattr_accessor :services
   @@services = {}

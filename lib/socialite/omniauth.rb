@@ -14,6 +14,8 @@ end
 OmniAuth.config.path_prefix = nil
 
 OmniAuth.config.on_failure = Proc.new do |env|
+  # TODO setup the failure app, make it configurable
+  #
   # env['devise.mapping'] = Devise::Mapping.find_by_path!(env['PATH_INFO'], :path)
   # controller_name  = ActiveSupport::Inflector.camelize(env['devise.mapping'].controllers[:omniauth_callbacks])
   # controller_klass = ActiveSupport::Inflector.constantize("#{controller_name}Controller")

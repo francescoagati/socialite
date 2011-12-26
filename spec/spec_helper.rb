@@ -12,11 +12,6 @@ ActiveRecord::Migrator.migrate File.expand_path('../dummy/db/migrate/', __FILE__
 
 # Load factories
 require 'fabrication'
-
-Fabrication.configure do |config|
-  fabrication_dir = File.expand_path('../fabricators', __FILE__)
-  p fabrication_dir
-end
 Dir["#{File.dirname(__FILE__)}/fabricators/**/*.rb"].each { |f| require f }
 
 # Load support files
