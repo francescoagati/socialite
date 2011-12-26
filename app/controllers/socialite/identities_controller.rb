@@ -5,16 +5,17 @@ module Socialite
     before_filter :ensure_user, :only => [:destroy]
     respond_to :html, :json
 
+    def index
+      identities
+    end
+
     def create
-      auth_hash = request.env['omniauth.auth']
       identity = Identity.find_or_initialize_by_oauth(auth_hash)
       identity.build_user if identity.user.blank?
 
       if identity.save
         self.current_user ||= identity.user
-        flash_message :notice, 'You have logged in successfully.'
-      else
-        flash_message :error, 'An error occurred. Please try again.'
+        flash_message :success, "Successfully authorized from #{auth_strategy.name.to_s.humanize}"
       end
       respond_with(identity) do |format|
         format.html { redirect_back_or_default }
@@ -22,7 +23,7 @@ module Socialite
     end
 
     def failure
-      flash_message :error, 'We had trouble signing you in. Did you make sure to grant access? Please select a service below and try again.'
+      flash_message :error, "Could not authorize you from #{failed_strategy.name.to_s.humanize} because #{failure_message}"
       respond_with do |format|
         format.html { redirect_back_or_default }
       end
@@ -42,12 +43,32 @@ module Socialite
 
   private
 
+    def auth_strategy
+      env['omniauth.strategy']
+    end
+
+    def failed_strategy
+      env['omniauth.error.strategy']
+    end
+
+    def failure_message
+      exception = env['omniauth.error']
+      error = exception.error_reason if exception.respond_to?(:error_reason)
+      error ||= exception.error if exception.respond_to?(:error)
+      error ||= env['omniauth.error.type'].to_s
+      error.to_s.humanize if error
+    end
+
     def identities
       @identities = current_user.identities
     end
 
     def identity
       @identity ||= current_user.identities.find(params[:id])
+    end
+
+    def auth_hash
+      request.env['omniauth.auth']
     end
   end
 end

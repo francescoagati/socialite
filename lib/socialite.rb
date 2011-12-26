@@ -4,8 +4,8 @@ require 'omniauth-facebook'
 require 'omniauth-twitter'
 
 require 'socialite/service'
-require 'socialite/engine'
 require 'socialite/identity'
+require 'socialite/omniauth'
 
 module Socialite
   autoload :ControllerSupport, 'socialite/controller_support'
@@ -50,12 +50,22 @@ module Socialite
   mattr_accessor :services
   @@services = {}
 
+  # Specify an omniauth provider.
+  #
+  #   config.services :facebook, APP_ID, APP_SECRET
+  #
+  def self.service(provider, *args)
+    config = Socialite::OmniAuth::Config.new(provider, args)
+    @@services[config.strategy_name.to_sym] = config
+  end
+
   def self.facebook(key, secret, options = {})
-    @@services[:facebook] = Service.new(key, secret, options)
+    service(:facebook, key, secret, options)
   end
 
   def self.twitter(key, secret, options = {})
-    @@services[:twitter] = Service.new(key, secret, options)
+    service(:twitter, key, secret, options)
   end
 end
 
+require 'socialite/engine'

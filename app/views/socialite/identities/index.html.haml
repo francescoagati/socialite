@@ -1,0 +1,19 @@
+.span16
+  %header.page-header
+    Authorized Identities
+
+
+  %table.zebra-striped
+    %thead
+      %th Provider
+      %th Unique ID
+      %th Additional
+      %th Actions
+    %tbody
+      - @identities.each do |identity|
+        %tr
+          %td= identity.provider
+          %td= identity.unique_id
+          %td= identity.auth_hash
+          %td= link_to 'Unlink', user_identity_path(identity), :method => :delete, :confirm => 'Are you sure?', :class => 'btn danger'
+

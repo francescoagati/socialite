@@ -26,15 +26,15 @@ module Socialite
           @default_route ||= '/'
         end
 
-        # Helper for supporting multiple flash messages per type
+        # Sets the flash message with :key, using I18n. By default you are able
+        # to setup your messages using specific resource scope, and if no one is
+        # found we look to default scope.
         #
-        # @param [Symbol] the type of flash message. Common types are
-        # :success, :notice, :error
-        # @param [String] the message to attach to the flash type
-        # @return [Hash] all associated flash messages for this request
-        def flash_message(type, text)
-          flash[type.to_sym] ||= []
-          flash[type.to_sym] << text
+        # Please refer to en.yml locale file to check what messages are available.
+        def flash_message(key, kind, options={})
+          message = I18n.t("#{controller_name}.#{kind}", options)
+          flash[key.to_sym] ||= []
+          flash[key.to_sym] << message if message.present?
         end
 
       protected
@@ -46,7 +46,7 @@ module Socialite
         # @return [Boolean]
         # (see #current_user?)
         def ensure_user
-           current_user? || deny_access('You must be logged in to perform this action.')
+          current_user? || deny_access('You must be logged in to perform this action.')
         end
 
         # Conditional check to see ensure there is no current user
@@ -54,7 +54,7 @@ module Socialite
         # @return [Boolean]
         # (see #current_user?)
         def ensure_no_user
-           !current_user? || redirect_back_or_default
+          !current_user? || redirect_back_or_default
         end
 
         # Utils
